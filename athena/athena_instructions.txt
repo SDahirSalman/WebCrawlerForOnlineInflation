@@ -1,18 +1,20 @@
 Below is the athena statement to search common crawl for websites whose url contain the words "walmart.com" and "laptop". 
 The word "laptop" is recommended to be included in the query so that we can focus on the "laptop" basket of goods.
 
-/*save the output AS a parquet*/CREATE TABLE ccindex.walmart_laptops_query_2018
-WITH ( format='PARQUET', external_location='s3://walmart-east-2-usama/walmart_laptops_2018/' ) AS
+/*save the output AS a parquet*/CREATE TABLE ccindex.amazon_walmart_laptops_query_2022
+WITH ( format='PARQUET', external_location='s3://price-inflation/amazon_walmart_laptops_2022/' ) AS
 SELECT url,
          warc_filename,
          warc_record_offset,
          warc_record_length
 FROM "ccindex"."ccindex"
-WHERE (crawl = 'CC-MAIN-2018-05' OR crawl = 'CC-MAIN-2018-09' OR crawl = 'CC-MAIN-2018-13' OR crawl = 'CC-MAIN-2018-17' OR crawl = 'CC-MAIN-2018-22' 
-       OR crawl = 'CC-MAIN-2018-26' OR crawl = 'CC-MAIN-2018-30' OR crawl = 'CC-MAIN-2018-34' OR crawl = 'CC-MAIN-2018-39' OR crawl = 'CC-MAIN-2018-43'
-       OR crawl = 'CC-MAIN-2018-47' OR crawl = 'CC-MAIN-2018-51')
+WHERE (crawl = 'CC-MAIN-2018-04' OR crawl = 'CC-MAIN-2021-10' 
+       OR crawl = 'CC-MAIN-2021-17' OR crawl = 'CC-MAIN-2021-21' OR crawl = 'CC-MAIN-2021-25' OR crawl = 'CC-MAIN-2021-31' OR crawl = 'CC-MAIN-2021-39'
+       OR crawl = 'MAIN-2021-43' OR crawl = 'MAIN-2021-52' OR crawl = 'MAIN-2022-05')
         AND position('walmart.com' IN url) != 0
         AND position('laptop' IN url) != 0
+        AND position('gb' IN URL)! = 0
+
 
 The output has four columns:  Technically, the url is not needed, but is included for reference purposes.
 In the the first website that is crawled:
